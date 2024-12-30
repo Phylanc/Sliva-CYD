@@ -1,0 +1,16 @@
+{
+    "name": "SlivaCYD3",
+    "rootNamespace": "SlivaCYD3",
+    "references": [
+        "GUID:6f773af28088ee844a067f74143963e4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

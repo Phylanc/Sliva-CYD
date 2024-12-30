@@ -1,0 +1,17 @@
+{
+    "name": "I2.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6f773af28088ee844a067f74143963e4",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
