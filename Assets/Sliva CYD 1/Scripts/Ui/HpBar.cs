@@ -32,10 +32,10 @@ namespace SlivaCYD1
            _HpBarFill.fillAmount = valueAsPercentage;
        }
 
-       private void LateUpdate()
-       {
-           transform.LookAt(new Vector3(transform.position.x, _camera.transform.position.y, _camera.transform.position.z));
-           transform.Rotate(0, 180, 0);
-       }
+       // private void LateUpdate()
+       // {
+       //     float parentScaleX = transform.parent.localScale.x;
+       //     transform.localScale = new Vector3(1f / parentScaleX, 1f, 1f);
+       // }
     }
 }
