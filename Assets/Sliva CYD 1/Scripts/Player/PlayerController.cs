@@ -16,6 +16,14 @@ namespace SlivaCYD1
         [SerializeField] private float walkSpeed = 5f;
         [SerializeField] private float runSpeed = 8f;
         [SerializeField] private float jumpHeight = 3f;
+
+        [Header("Атака")] 
+        [SerializeField] private Transform _attackCheck;
+
+        [SerializeField] private float _attackRadius = 0.9f;
+        [SerializeField] private int _attackDamage = 10;
+        [SerializeField] private LayerMask _enemyLayer;
+        
         
         [Header("Проверка земли")]
         // Пустой дочерний объект
@@ -36,17 +44,27 @@ namespace SlivaCYD1
         private InputAction _sprintAction;
         
         private bool _isGrounded;
+        [Header("АНИМАЦИЯ")]
+        [SerializeField] private Animator _animator;
 
+        private InputAction _attackAction;
+        private bool _canAttack = true;
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _ps = GetComponent<PlayerStamina>();
+            
             
             var playermap = _inputActions.FindActionMap("Player", throwIfNotFound:true);
             
             _moveAction = playermap.FindAction("Move", throwIfNotFound:true);
             _jumpAction = playermap.FindAction("Jump", throwIfNotFound:true);
             _sprintAction = playermap.FindAction("Sprint", throwIfNotFound:true);
+            _attackAction = playermap.FindAction("Attack", throwIfNotFound: true);
+            
+            GetComponent<PlayerHp>().OnDead += Die;
+            
             
             
         }
@@ -56,6 +74,7 @@ namespace SlivaCYD1
             _moveAction.Enable();
             _jumpAction.Enable();
             _sprintAction.Enable();
+            _attackAction.Enable();
         }
 
         private void OnDisable()
@@ -63,6 +82,7 @@ namespace SlivaCYD1
             _moveAction.Disable();
             _jumpAction.Disable();
             _sprintAction.Disable();
+            _attackAction.Disable();
         }
 
         private void Update()
@@ -73,6 +93,7 @@ namespace SlivaCYD1
                 _groundCheckRadius,
                 _groundLayer);
             HandleJump();
+            HandleAnimation();
         }
 
         private void FixedUpdate()
@@ -90,7 +111,7 @@ namespace SlivaCYD1
             float speed = wantsToSprint ? runSpeed : walkSpeed;
             
             if(wantsToSprint)
-                _ps.Drain(Time.fixedDeltaTime); //FixedUpdate используем fixedDeltaTime
+                _ps.Drain(Time.fixedDeltaTime); 
             else
                 _ps.StopDraining();
             
@@ -113,6 +134,51 @@ namespace SlivaCYD1
             }
         }
 
+        //Анимация
+        private void HandleAnimation()
+        {
+            //нормализация скорости 0..1
+            float speed = Mathf.Abs(_rb.velocity.x);
+            _animator.SetFloat("Speed", speed);
+            
+            //прыжок
+            _animator.SetBool("IsGrounded", _isGrounded);
+            
+            //атака
+            if (_attackAction.WasPressedThisFrame() && _canAttack)
+            {
+                _animator.SetTrigger("Attack");
+                StartCoroutine(AttackCooldown());
+            }
+                
+                
+        }
+        
+        public void Die()
+        {
+            _animator.SetTrigger("IsDead");
+            
+            _moveAction.Disable();
+            _jumpAction.Disable();
+            _attackAction.Disable();
+            
+        }
 
+        private IEnumerator AttackCooldown()
+        {
+            _canAttack = false;
+            yield return new WaitForSeconds(0.5f);
+            _canAttack = true;
+        }
+        
+        public void DealAttackDamage()
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(_attackCheck.position, _attackRadius, _enemyLayer);
+            foreach (var hit in hits)
+            {
+                if (hit.TryGetComponent<PlayerHp>(out var hp))
+                    hp.TakeDamage(_attackDamage);
+            }
+        }
     }
 }

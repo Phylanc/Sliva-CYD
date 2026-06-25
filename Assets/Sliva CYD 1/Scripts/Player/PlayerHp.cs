@@ -13,7 +13,10 @@ namespace SlivaCYD1
         [SerializeField] private int maxHp = 100;
 
         public event Action<float> HpChanged;
+        public event Action OnDead;
+        
         private int _currentHp;
+        private bool _isDead;
         
         private void Start()
         {
@@ -29,26 +32,30 @@ namespace SlivaCYD1
             
         }
 
+        public void TakeDamage(int amount)
+        {
+            if (_isDead) return;
+            ChangeHp(-amount);
+        }
+        
         private void ChangeHp(int value)
         {
-            _currentHp += value;
-
+            _currentHp = Mathf.Clamp(_currentHp + value, 0, maxHp);
+            
+            float pct =  (float)_currentHp / maxHp;
+            HpChanged?.Invoke(pct);
+            
             if (_currentHp <= 0)
-            {
                 Death();
-            }
-            else
-            {
-                float currentHpAsPercentage = (float)_currentHp / maxHp;
-                HpChanged?.Invoke(currentHpAsPercentage);
-            }
         }
         
         private void Death()
         {
-            HpChanged?.Invoke(0);
+            _isDead = true;
             Debug.Log("игрок сдох");
-            Destroy(gameObject);
+            OnDead?.Invoke();
+            
+
         }
     }
 }
