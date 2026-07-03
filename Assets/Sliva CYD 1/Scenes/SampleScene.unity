@@ -1775,7 +1775,6 @@ GameObject:
   - component: {fileID: 1960662618}
   - component: {fileID: 1960662617}
   - component: {fileID: 1960662621}
-  - component: {fileID: 1960662623}
   - component: {fileID: 1960662622}
   - component: {fileID: 1960662624}
   m_Layer: 9
@@ -1954,34 +1953,6 @@ MonoBehaviour:
   staminaDownSecond: 20
   staminaRegenSecond: 10
   regenDelaySecond: 1
---- !u!114 &1960662623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960662615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ceb6875c855d844caf38fa77b331495, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 5
-  runSpeed: 8
-  jumpHeight: 8
-  _attackCheck: {fileID: 753465160}
-  _attackRadius: 0.9
-  _attackDamage: 10
-  _enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  _groundCheck: {fileID: 213481855}
-  _groundCheckRadius: 0.15
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  _inputActions: {fileID: -944628639613478452, guid: 14317052bdfa8c8499e99177d8a1ccd0, type: 3}
-  _animator: {fileID: 1960662618}
 --- !u!114 &1960662624
 MonoBehaviour:
   m_ObjectHideFlags: 0

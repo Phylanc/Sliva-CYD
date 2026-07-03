@@ -7,7 +7,7 @@ using UnityInput = UnityEngine.Input;
 
 namespace SlivaCYD1
 {
-    public class PlayerHp : MonoBehaviour
+    public class PlayerHp : MonoBehaviour, IDamageable
     {
         [Header("ХП ИГРОКА")]
         [SerializeField] private int maxHp = 100;
