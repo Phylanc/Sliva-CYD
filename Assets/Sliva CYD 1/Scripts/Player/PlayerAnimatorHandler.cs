@@ -36,7 +36,7 @@ namespace SlivaCYD1
         
         public void SetSpeed(float speed)
         {
-            _animator.SetFloat("Speed", speed);
+            _animator.SetFloat("Speed", Mathf.Abs(speed) < 0.01f ? 0f : Mathf.Abs(speed));
         }
 
         public void SetGrounded(bool isGrounded)

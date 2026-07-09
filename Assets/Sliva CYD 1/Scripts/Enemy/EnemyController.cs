@@ -13,6 +13,7 @@ namespace SlivaCYD1
 
         [Header("Нахождение игрока")] 
         [SerializeField] private float _detectionRadius = 5f;
+        // [SerializeField] private float _loseRadius = 7f;
         [SerializeField] private float _attackRange = 1f;
         [SerializeField] private LayerMask _playerLayer;
         
@@ -30,9 +31,18 @@ namespace SlivaCYD1
 
         private void Update()
         {
-            Collider2D hit = Physics2D.OverlapCircle(transform.position, _detectionRadius, _playerLayer);
-            _player = hit != null ? hit.transform : null;
-            
+            if (_player == null)
+            {
+                Collider2D hit = Physics2D.OverlapCircle(transform.position, _detectionRadius, _playerLayer);
+                _player = hit != null ? hit.GetComponentInParent<PlayerHp>()?.transform ?? hit.transform.root : null;
+            }
+
+            else
+            {
+                float dist = Vector2.Distance(transform.position, _player.position);
+                // if (dist> _loseRadius) _player = null;
+            }
+
             _eAnimHandler.SetSpeed(Mathf.Abs(_rb.velocity.x));
         }
         

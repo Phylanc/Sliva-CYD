@@ -24,7 +24,10 @@ namespace SlivaCYD1
             _enemyHp.OnDead -= PlayDead;
         }
         
-        public void SetSpeed(float speed) => _animator.SetFloat("Speed", speed);
+        public void SetSpeed(float speed)
+        {
+            _animator.SetFloat("Speed", Mathf.Abs(speed) < 0.01f ? 0f : Mathf.Abs(speed));
+        }
         private void PlayAttack() => _animator.SetTrigger("Attack");
         private void PlayDead() => _animator.SetTrigger("Dead");
     }

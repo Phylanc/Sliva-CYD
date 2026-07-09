@@ -7,28 +7,28 @@ using Image = UnityEngine.UI.Image;
 
 namespace SlivaCYD1
 {
-    public class HpBar : MonoBehaviour
+    public class EnemyHpBar : MonoBehaviour
     {
        [SerializeField] private Image _HpBarFill;
        
-       [SerializeField] PlayerHp _Hp;
+       [SerializeField] EnemyHp _Hp;
        
        private Camera _camera;
 
        private void Awake()
        {
-           _Hp.HpChanged += OnHpChanged;
+           _Hp.EnemyHpChanged += OnHpChanged;
            _camera = Camera.main;
        }
 
        private void OnDestroy()
        {
-           _Hp.HpChanged -= OnHpChanged;
+           _Hp.EnemyHpChanged -= OnHpChanged;
        }
 
        private void OnHpChanged(float valueAsPercentage)
        {
-           // Debug.Log(valueAsPercentage);
+           Debug.Log(valueAsPercentage);
            _HpBarFill.fillAmount = valueAsPercentage;
        }
 

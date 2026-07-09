@@ -15,23 +15,6 @@ namespace SlivaCYD1
 
       private void Update()
       {
-          float speed = Mathf.Abs(_rb.velocity.x);
-          _animator.SetFloat("Speed", speed);
-          
-          bool isGrounded = Physics2D.OverlapCircle(
-              groundCheck.position, 
-              groundCheckRadius, 
-              groundLayer);
-          _animator.SetBool("IsGrounded", isGrounded);
-
-          if (_rb.velocity.x > 0.1f)
-          {
-              transform.localScale = new Vector3(1f, 1f, 1f);
-          }
-          else if (_rb.velocity.x < -0.1f)
-          {
-              transform.localScale = new Vector3(-1f, 1f, 1f);
-          }
       }
     }
 }

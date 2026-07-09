@@ -15,8 +15,10 @@ namespace SlivaCYD1
 
         [Header("Тайминги")]
         [SerializeField] private float _attackAnimDlina = 1.5f;
+        [SerializeField] private float _damageDelay = 0.35f;
 
         private bool _canAttack = true;
+        private bool _damageAppliedThisAttack;
 
         public event System.Action OnAttackStart;
 
@@ -25,7 +27,9 @@ namespace SlivaCYD1
             if(!_canAttack) return;
 
             _canAttack = false;
+            _damageAppliedThisAttack = false;
             OnAttackStart?.Invoke();
+            StartCoroutine(DealDamageAfterDelay());
             StartCoroutine(AttackCooldown());
         }
 
@@ -37,12 +41,22 @@ namespace SlivaCYD1
 
         public void DealAttackDamage()
         {
+            if (_damageAppliedThisAttack) return;
+            _damageAppliedThisAttack = true;
+
             Collider2D[] hits = Physics2D.OverlapCircleAll(_attackCheck.position, _attackRadius, _playerLayer);
             foreach (var hit in hits)
             {
-                if (hit.TryGetComponent<IDamageable>(out var damageable))
+                IDamageable damageable = hit.GetComponentInParent<IDamageable>();
+                if (damageable != null)
                     damageable.TakeDamage(_attackDamage);
             }
+        }
+
+        private IEnumerator DealDamageAfterDelay()
+        {
+            yield return new WaitForSeconds(_damageDelay);
+            DealAttackDamage();
         }
     }
 }
