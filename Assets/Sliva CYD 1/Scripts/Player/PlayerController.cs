@@ -91,8 +91,9 @@ namespace SlivaCYD1
         private void HandleMovement()
         {
             float inputX = _moveAction.ReadValue<Vector2>().x;
-
-            bool wantsToSprint = _sprintAction.IsPressed() && _ps.HasStamina();
+            bool isMoving = Mathf.Abs(inputX) > 0.01f;
+            
+            bool wantsToSprint = isMoving && _sprintAction.IsPressed() && _ps.HasStamina();
             float speed = wantsToSprint ? runSpeed : walkSpeed;
 
             if (wantsToSprint)

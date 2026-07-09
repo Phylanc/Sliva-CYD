@@ -18,7 +18,7 @@ namespace SlivaCYD1
 
         private bool _canAttack = true;
 
-        public event Action OnAttackStart;
+        public event System.Action OnAttackStart;
 
         public void TryAttack()
         {
